@@ -28,6 +28,7 @@
     "gulp-streamify": "0.0.5"
   },
   "dependencies": {
+    "lodash": "^3.6.0",
     "react": "~0.13.1"
   }
 }

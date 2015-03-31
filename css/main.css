@@ -1,1 +1,1 @@
-.hasnavbar{padding-top:71px}
+.hasnavbar{padding-top:71px}.card-item{list-style-type:none}.card{position:relative;width:200px;height:125px;border:1px solid #ccc}.card-attack,.card-cost,.card-health,.card-name,.card-race,.card-text{position:absolute}.card-cost{top:0;left:0}.card-name{top:0;left:25px}.card-attack{bottom:0;left:0}.card-health{bottom:0;right:0}.card-race{bottom:0;left:45px}.card-text{top:30px;left:0;padding:0 10px}

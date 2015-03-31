@@ -7,21 +7,24 @@ var CardSelector = React.createClass({
         return {text: "", cardList: []};
     },
     handleChange: function(event) {
+        var self = this;
         this.setState({
             cardList: _.filter(data, function(x) {
-                return x.name.toLowerCase().indexOf(event.target.value) > -1;
+                var nameHasText = x.name.toLowerCase().indexOf(event.target.value) > -1;
+                return nameHasText && self.props.precondition(x);
             })
         });
     },
     render: function() {
         return(
             <div className="card-selector">
+                <span>{this.props.description}</span>
                 <input type="text" onChange={this.handleChange} />
                 <ul>
                     {
                         this.state.cardList.map(function(card) {
                             return (
-                                <li>{card.name}</li>
+                                <li key={card.id}>{card.name}</li>
                             );
                         })
                     }

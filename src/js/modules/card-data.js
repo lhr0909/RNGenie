@@ -21,13 +21,9 @@ _.forEach(cards, function(value, key) {
 
                 finalData.push(card);
 
-            } else {
-                console.log(card);
             }
         });
 
-    } else {
-        console.log(value);
     }
 });
 

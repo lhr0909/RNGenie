@@ -42,7 +42,7 @@ gulp.task('build-sass', function() {
  */
 gulp.task('build-js', function() {
     var build = browserify({
-        entries: ['./src/js/app.js'],
+        entries: ['./src/js/App.js'],
         transform: [reactify],
         debug : isDebug
     }).bundle()

@@ -1,3 +1,43 @@
 .hasnavbar {
     padding-top: 71px;
 }
+.card-item {
+    list-style-type: none;
+}
+.card {
+    position: relative;
+    width: 200px;
+    height: 125px;
+    border: 1px #ccc solid;
+}
+.card-cost {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+.card-name {
+    position: absolute;
+    top: 0px;
+    left: 25px;
+}
+.card-attack {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+}
+.card-health {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+.card-race {
+    position: absolute;
+    bottom: 0px;
+    left: 45px;
+}
+.card-text {
+    position: absolute;
+    top: 30px;
+    left: 0px;
+    padding: 0 10px;
+}

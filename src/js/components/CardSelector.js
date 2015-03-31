@@ -2,6 +2,8 @@ var React = require('react');
 var data = require('../modules/card-data.js');
 var _ = require('lodash');
 
+var Card = require('./Card.js');
+
 var CardSelector = React.createClass({
     getInitialState: function() {
         return {text: "", cardList: []};
@@ -20,11 +22,13 @@ var CardSelector = React.createClass({
             <div className="card-selector">
                 <span>{this.props.description}</span>
                 <input type="text" onChange={this.handleChange} />
-                <ul>
+                <ul className="card-list">
                     {
                         this.state.cardList.map(function(card) {
                             return (
-                                <li key={card.id}>{card.name}</li>
+                                <li key={card.id} className="card-item">
+                                    <Card info={card} />
+                                </li>
                             );
                         })
                     }

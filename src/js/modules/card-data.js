@@ -7,12 +7,14 @@ var finalData = [];
 _.forEach(cards, function(value, key) {
     // Filter out stuff that we don't care
     // TODO: Add Blackrock Mountain
+    console.log(key);
     if ((key === "Basic") ||
         (key === "Classic") ||
         (key === "Reward") ||
         (key === "Promotion") ||
         (key === "Curse of Naxxramas") ||
-        (key === "Goblins vs Gnomes")) {
+        (key === "Goblins vs Gnomes") ||
+        (key === "Blackrock Mountain")) {
 
         _.forEach(value, function(card) {
             if ((card.type !== "Enchantment") &&

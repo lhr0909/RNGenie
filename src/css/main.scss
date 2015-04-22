@@ -16,9 +16,9 @@
     left: 0px;
 }
 .card-name {
-    position: absolute;
-    top: 0px;
-    left: 25px;
+    width: 100%;
+    height: 20%;
+    text-align: center;
 }
 .card-attack {
     position: absolute;
@@ -31,13 +31,13 @@
     right: 0px;
 }
 .card-race {
-    position: absolute;
-    bottom: 0px;
-    left: 45px;
+    width: 100%;
+    height: 20%;
+    text-align: center;
 }
 .card-text {
-    position: absolute;
-    top: 30px;
-    left: 0px;
-    padding: 0 10px;
+    width: 100%;
+    height: 64%;
+    padding: 10px 10px 0 10px;
+    text-align: center;
 }

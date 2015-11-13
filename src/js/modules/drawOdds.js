@@ -12,8 +12,14 @@ var oddsOfSuccess = function(cardsInDeck, targetCardsInDeck, cardsToDraw) {
     var odds = [];
     // Less than or equal to intentional
     // This is simpler than programming the cumulative distribution function.  For small values, it should be fine
-    for (var i = 0; i <= Math.min(cardsInDeck, targetCardsInDeck, cardsToDraw); i++) {
-        odds.push(oddsOfNSuccesses(cardsInDeck, targetCardsInDeck, cardsToDraw, i));
+    var minimumSuccesses = Math.max(cardsToDraw - (cardsInDeck - targetCardsInDeck), 0);
+    var maximumSuccesses = Math.min(cardsInDeck, targetCardsInDeck, cardsToDraw);
+    for (var i = 0; i <= maximumSuccesses; i++) {
+        if (i < minimumSuccesses) {
+            odds.push(0);
+        } else {
+            odds.push(oddsOfNSuccesses(cardsInDeck, targetCardsInDeck, cardsToDraw, i));
+        }
     }
     return odds;
 }

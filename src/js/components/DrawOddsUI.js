@@ -5,15 +5,32 @@ var math = require('mathjs');
 var Card = require('./Card.js');
 
 var DrawOddsUI = React.createClass({
+    getInitialState: function() {
+        return {'cardsInDeck': 18,
+                 'targetsInDeck' : 3,
+                  'cardsToDraw': 4
+                };
+    },
+    // TODO: Validate inputs
+    onChangeCardsInDeck: function(e) {
+        this.setState({cardsInDeck: e.target.value});
+    },
+    onChangeTargetsInDeck: function(e) {
+        this.setState({targetsInDeck: e.target.value});
+    },
+    onChangeCardsToDraw: function(e) {
+        this.setState({cardsToDraw: e.target.value});
+    },
     render: function() {
         return(
             <div>
-            <b>15</b> cards remain, <b>2</b> are success conditions, <b>4</b> cards are to be drawn<br />
-
+            <input onChange={this.onChangeCardsInDeck} defaultValue={this.state.cardsInDeck} /> cards remain<br />
+            <input onChange={this.onChangeTargetsInDeck} defaultValue={this.state.targetsInDeck} /> success cards remain<br />
+            <input onChange={this.onChangeCardsToDraw} defaultValue={this.state.cardsToDraw} /> cards will be drawn<br />
             {
-                data['drawOdds'](15, 2, 4).map(function (data, index) {
+                data['drawOdds'](this.state.cardsInDeck, this.state.targetsInDeck, this.state.cardsToDraw).map(function (data, index) {
                     return (
-                        < div > <b>{index} draws:</b> {math.round(data * 100, 1)}% < / div >
+                        < div > <b>{index} draws:</b> {math.round(data * 100, 2) || '< 0.01'}% < / div >
                     );
                 })
             }

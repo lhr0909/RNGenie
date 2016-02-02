@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 'use strict';
 
@@ -14,4 +15,4 @@ class App extends React.Component {
   }
 }
 
-React.render(<App/>, document.getElementById("mount-point"));
+ReactDOM.render(<App/>, document.getElementById("mount-point"));

@@ -4,22 +4,25 @@
  * Date: Feb 1, 2016
  */
 
+import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import RNGNav from './components/rng-nav.jsx';
 import PewPewSimulator from './pages/pew-pew-sim.jsx';
+import { Router, Route, Link, browserHistory } from 'react-router';
 
 'use strict';
 
 class App extends React.Component {
   render() {
     return (
-      <div>
-        <RNGNav />
-        <PewPewSimulator />
-      </div>
+      <Router history={browserHistory}>
+        <Route path="/" component={PewPewSimulator}>
+        </Route>
+      </Router>
     );
   }
 }
 
-ReactDOM.render(<App/>, document.getElementById("mount-point"));
+ReactDOM.render(<RNGNav />, document.getElementById("rng-nav"));
+ReactDOM.render(<App />, document.getElementById("rng-mount-point"));

@@ -5,11 +5,23 @@
  */
 
 import React from 'react';
+import simulatePewPews from '../modules/pewpew.js';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 'use strict';
 
 class PewPewSimulator extends React.Component {
+  constructor() {
+    super();
+    let targets = [];
+    targets.push({health: 5});
+    targets.push({health: 2});
+    targets.push({health: 2});
+    for (var outcome of simulatePewPews(3, 1, targets)) {
+      console.log(outcome);
+    }
+  }
+
   render() {
     return (
       <Grid fluid={true}>

@@ -59227,7 +59227,7 @@
 	        _react2.default.createElement(
 	          'ul',
 	          { className: 'card-list' },
-	          self.state.cardList.map(function (card) {
+	          _lodash2.default.chain(self.state.cardList).sortBy('cost').map(function (card) {
 	            return _react2.default.createElement(
 	              'li',
 	              { key: card.id,
@@ -59235,7 +59235,7 @@
 	                onClick: self.handleCardSelection.bind(self, card.id) },
 	              _react2.default.createElement(_card2.default, { info: card })
 	            );
-	          })
+	          }).value()
 	        )
 	      );
 	    }

@@ -59030,7 +59030,9 @@
 
 	    _this.state = {
 	      discoverFilter: function discoverFilter(x) {
-	        return x.text && x.text.indexOf("Discover</b>") > -1;
+	        return _lodash2.default.reduce(Object.keys(_discoverCardFilters2.default), function (condition, discoverCardId) {
+	          return condition || x.id === discoverCardId;
+	        }, false);
 	      },
 	      explorerFilter: function explorerFilter(x) {
 	        return false;
@@ -59064,7 +59066,7 @@
 	        _react2.default.createElement(
 	          _reactBootstrap.Row,
 	          null,
-	          _react2.default.createElement(_cardPool2.default, { collectibleOnly: true,
+	          _react2.default.createElement(_cardPool2.default, { collectibleOnly: false,
 	            precondition: this.state.discoverFilter,
 	            handleSelection: this.handleDiscoverSelection.bind(this) })
 	        ),

@@ -8,8 +8,10 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import RNGNav from './components/rng-nav.jsx';
-import PewPewSimulator from './pages/pew-pew-sim.jsx';
 import { Router, Route, Link, browserHistory } from 'react-router';
+
+import PewPewSimulator from './pages/pew-pew-sim.jsx';
+import DiscoverExplorer from './pages/discover-explorer.jsx';
 
 'use strict';
 
@@ -17,7 +19,7 @@ class App extends React.Component {
   render() {
     return (
       <Router history={browserHistory}>
-        <Route path="/" component={PewPewSimulator}>
+        <Route path="/" component={DiscoverExplorer}>
         </Route>
       </Router>
     );

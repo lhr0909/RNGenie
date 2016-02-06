@@ -52,7 +52,9 @@ class CardPool extends React.Component {
       <div className="card-pool">
           <ul className="card-list">
               {
-                  self.state.cardList.map(function(card) {
+                  _.chain(self.state.cardList)
+                   .sortBy('cost')
+                   .map(function(card) {
                       return (
                           <li key={card.id}
                               className="card-item"
@@ -60,7 +62,7 @@ class CardPool extends React.Component {
                               <Card info={card} />
                           </li>
                       );
-                  })
+                  }).value()
               }
           </ul>
       </div>

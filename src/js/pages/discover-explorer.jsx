@@ -9,7 +9,11 @@ class DiscoverExplorer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      discoverFilter: (x) => { return x.text && x.text.indexOf("Discover</b>") > -1; },
+      discoverFilter: (x) => {
+        return _.reduce(Object.keys(discoverCardFilters), function(condition, discoverCardId) {
+          return condition || x.id === discoverCardId; 
+        }, false);
+      },
       explorerFilter: (x) => { return false; }
     };
   }
@@ -27,7 +31,7 @@ class DiscoverExplorer extends React.Component {
           <Col xs={12}>Discover Cards Here</Col>
         </Row>
         <Row>
-          <CardPool collectibleOnly={true}
+          <CardPool collectibleOnly={false}
                     precondition={ this.state.discoverFilter }
                     handleSelection= { this.handleDiscoverSelection.bind(this) } />
         </Row>

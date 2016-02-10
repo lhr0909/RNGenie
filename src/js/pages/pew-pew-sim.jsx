@@ -1,25 +1,26 @@
 /**
  * Pew-pew Simulator Page
+ * more
  * Author: Simon Liang (lhr0909@)
  * Date: Feb 3, 2016
  */
 
 import React from 'react';
-import simulatePewPews from '../modules/pewpew.js';
+import { analyzePewPews } from '../modules/pewpew.js';
 import { Grid, Row, Col } from 'react-bootstrap';
+import _ from 'lodash';
 
 'use strict';
 
 class PewPewSimulator extends React.Component {
   constructor() {
     super();
-    let targets = [];
-    targets.push({health: 5});
-    targets.push({health: 2});
-    targets.push({health: 2});
-    for (var outcome of simulatePewPews(3, 1, targets)) {
-      console.log(outcome);
-    }
+    let targets = [
+      {health: 5},
+      {health: 2},
+      {health: 2}
+    ];
+    let analysis = analyzePewPews(3, 1, targets);
   }
 
   render() {

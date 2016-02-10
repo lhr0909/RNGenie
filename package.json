@@ -18,8 +18,8 @@
   "homepage": "https://github.com/lhr0909/RNGenie#readme",
   "dependencies": {
     "babel-polyfill": "^6.3.14",
-    "deepcopy": "^0.6.1",
     "history": "^1.17.0",
+    "lodash": "^4.3.0",
     "react": "^0.14.7",
     "react-bootstrap": "^0.28.2",
     "react-dom": "^0.14.7",

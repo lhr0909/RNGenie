@@ -1,0 +1,9 @@
+.card-pool {
+  .card-list {
+    list-style-type: none;
+
+    .card-item {
+      float: left;
+    }
+  }
+}

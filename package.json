@@ -17,14 +17,26 @@
   },
   "homepage": "https://github.com/lhr0909/RNGenie#readme",
   "dependencies": {
-    "react": "^0.14.7"
+    "babel-polyfill": "^6.3.14",
+    "history": "^1.17.0",
+    "lodash": "^4.3.0",
+    "react": "^0.14.7",
+    "react-bootstrap": "^0.28.2",
+    "react-dom": "^0.14.7",
+    "react-router": "^1.0.3"
   },
   "devDependencies": {
     "babel-core": "^6.4.5",
     "babel-loader": "^6.2.1",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
+    "css-loader": "^0.23.1",
     "html-webpack-plugin": "^2.7.2",
+    "postcss": "^5.0.16",
+    "postcss-cssnext": "^2.4.0",
+    "postcss-loader": "^0.8.1",
+    "precss": "^1.4.0",
+    "style-loader": "^0.13.0",
     "webpack": "^1.12.12",
     "webpack-dev-server": "^1.14.1"
   }

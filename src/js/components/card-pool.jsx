@@ -6,6 +6,7 @@ import css from '../../css/card-pool.css';
 import initCardData from '../modules/card-data.js';
 import Card from './card.jsx';
 
+
 class CardPool extends React.Component {
   constructor(props) {
     super(props);
@@ -41,9 +42,10 @@ class CardPool extends React.Component {
 
   getNewCardList(data, precondition) {
     let self = this;
-    return _.filter(data, function(x) {
+    let filteredCardList = _.filter(data, function(x) {
       return precondition(x) && ((self.state.collectibleOnly) ? x.collectible : true);
     });
+    return _.orderBy(filteredCardList, ['playerClass', 'cost', 'name'], ['asc', 'asc', 'asc']);
   }
 
   render() {
@@ -52,9 +54,7 @@ class CardPool extends React.Component {
       <div className="card-pool">
           <ul className="card-list">
               {
-                  _.chain(self.state.cardList)
-                   .sortBy('cost')
-                   .map(function(card) {
+                  _.map(self.state.cardList, function(card) {
                       return (
                           <li key={card.id}
                               className="card-item"
@@ -62,7 +62,7 @@ class CardPool extends React.Component {
                               <Card info={card} />
                           </li>
                       );
-                  }).value()
+                  })
               }
           </ul>
       </div>

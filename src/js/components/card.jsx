@@ -1,4 +1,5 @@
 import React from 'react';
+import css from '../../css/card.css';
 
 class Card extends React.Component {
   constructor(props) {
@@ -10,9 +11,9 @@ class Card extends React.Component {
   }
 
   getCardImageURL(cardId) {
-    if (this.state.chosen) {
-      return `http://wow.zamimg.com/images/hearthstone/cards/enus/animated/${cardId}_premium.gif`;
-    }
+    // if (this.state.chosen) {
+    //   return `http://wow.zamimg.com/images/hearthstone/cards/enus/animated/${cardId}_premium.gif`;
+    // }
     return `http://wow.zamimg.com/images/hearthstone/cards/enus/original/${cardId}.png`;
   }
 

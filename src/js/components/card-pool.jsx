@@ -3,7 +3,6 @@ import _ from 'lodash';
 
 import css from '../../css/card-pool.css';
 
-import initCardData from '../modules/card-data.js';
 import Card from './card.jsx';
 
 
@@ -11,22 +10,9 @@ class CardPool extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      collectibleOnly: props.collectibleOnly,
-      precondition: props.precondition,
       handleSelection: props.handleSelection,
-      data: [],
       cardList: []
     };
-  }
-
-  componentDidMount() {
-    let self = this;
-    initCardData(function(data) {
-      self.setState({
-        data: data,
-        cardList: self.getNewCardList(data, self.state.precondition)
-      });
-    });
   }
 
   componentWillReceiveProps(nextProps) {

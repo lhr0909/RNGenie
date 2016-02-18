@@ -5,6 +5,8 @@ import { Grid, Row, Col, Well } from 'react-bootstrap';
 import discoverCardFilters from '../modules/discover-card-filters.js';
 import CardPool from '../components/card-pool.jsx';
 
+import initCardData from '../modules/card-data.js';
+
 class DiscoverExplorer extends React.Component {
   constructor(props) {
     super(props);
@@ -16,6 +18,15 @@ class DiscoverExplorer extends React.Component {
       },
       explorerFilter: (x) => { return false; }
     };
+  }
+
+  componentDidMount() {
+    let self = this;
+    initCardData(function(data) {
+      self.setState({
+        data: data
+      });
+    });
   }
 
   handleDiscoverSelection(cardId) {

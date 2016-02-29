@@ -11,12 +11,9 @@ class DiscoverExplorer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      discoverFilter: (x) => {
-        return _.reduce(Object.keys(discoverCardFilters), function(condition, discoverCardId) {
-          return condition || x.id === discoverCardId;
-        }, false);
-      },
-      explorerFilter: (x) => { return false; }
+      data: [],
+      discoverCardList: [],
+      explorerCardList: []
     };
   }
 
@@ -24,14 +21,18 @@ class DiscoverExplorer extends React.Component {
     let self = this;
     initCardData(function(data) {
       self.setState({
-        data: data
+        data: data,
+        discoverCardList: _.filter(data, function(card) {
+          return !!discoverCardFilters[card.id];
+        }),
+        explorerCardList: []
       });
     });
   }
 
   handleDiscoverSelection(cardId) {
     this.setState({
-      explorerFilter: discoverCardFilters[cardId]
+      explorerCardList: _.filter(this.state.data, discoverCardFilters[cardId])
     });
   }
 
@@ -43,13 +44,11 @@ class DiscoverExplorer extends React.Component {
         </Row>
         <Row>
           <Col md={4} className="card-tray">
-            <CardPool collectibleOnly={false}
-                      precondition={ this.state.discoverFilter }
-                      handleSelection= { this.handleDiscoverSelection.bind(this) } />
+            <CardPool list={ this.state.discoverCardList }
+                      handleSelection={ this.handleDiscoverSelection.bind(this) } />
           </Col>
           <Col md={8}>
-            <CardPool collectibleOnly={false}
-                      precondition={ this.state.explorerFilter } />
+            <CardPool list={ this.state.explorerCardList } />
           </Col>
         </Row>
       </Grid>

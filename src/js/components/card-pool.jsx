@@ -10,28 +10,19 @@ class CardPool extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      handleSelection: props.handleSelection,
-      cardList: []
+      handleSelection: this.props.handleSelection,
+      cardList: this.props.list
     };
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      precondition: nextProps.precondition,
-      cardList: this.getNewCardList(this.state.data, nextProps.precondition)
+      cardList: nextProps.list
     });
   }
 
   handleCardSelection(id) {
     this.state.handleSelection(id);
-  }
-
-  getNewCardList(data, precondition) {
-    let self = this;
-    let filteredCardList = _.filter(data, function(x) {
-      return precondition(x) && ((self.state.collectibleOnly) ? x.collectible : true);
-    });
-    return _.orderBy(filteredCardList, ['playerClass', 'cost', 'name'], ['asc', 'asc', 'asc']);
   }
 
   render() {
@@ -40,7 +31,12 @@ class CardPool extends React.Component {
       <div className="card-pool">
           <ul className="card-list">
               {
-                  _.map(self.state.cardList, function(card) {
+                  _.map(
+                    _.orderBy(
+                      self.state.cardList,
+                      ['playerClass', 'cost', 'name'],
+                      ['asc', 'asc', 'asc']
+                    ), function(card) {
                       return (
                           <li key={card.id}
                               className="card-item"

@@ -5,7 +5,7 @@ class Card extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      info: props.info
+      info: this.props.info
     };
   }
 

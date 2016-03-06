@@ -6,6 +6,7 @@ import { discoverCardFilters, getDiscoverCardFilter } from '../modules/discover-
 import initCardData from '../modules/card-data.js';
 
 import CardPool from '../components/card-pool.jsx';
+import DiscoverSummary from '../components/discover-summary.jsx';
 
 
 class DiscoverExplorer extends React.Component {
@@ -42,14 +43,14 @@ class DiscoverExplorer extends React.Component {
           selected: card.id === discoverCard.id
         });
       })),
-      explorerCardList: _.cloneDeep(_.filter(this.state.data, getDiscoverCardFilter(discoverCard.id, discoverCard.playerClass)))
+      explorerCardList: _.cloneDeep(_.filter(this.state.data, getDiscoverCardFilter(discoverCard, discoverCard.playerClass)))
     });
   }
 
   handleHeroChange(e) {
     this.setState({
       heroClass: e.target.value,
-      explorerCardList: _.cloneDeep(_.filter(this.state.data, getDiscoverCardFilter(this.state.discoverCard.id, e.target.value)))
+      explorerCardList: _.cloneDeep(_.filter(this.state.data, getDiscoverCardFilter(this.state.discoverCard, e.target.value)))
     });
   }
 
@@ -75,6 +76,13 @@ class DiscoverExplorer extends React.Component {
               <option value="WARLOCK">Warlock</option>
               <option value="WARRIOR">Warrior</option>
             </Input>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+            <DiscoverSummary explorerCardList={ this.state.explorerCardList }
+                             heroClass={ this.state.heroClass }
+                             discoverCard={ this.state.discoverCard } />
           </Col>
         </Row>
         <Row>

@@ -1,4 +1,4 @@
-export default {
+export const discoverCardFilters = {
   'LOE_003': function etheralConjurer(x) {
     return x.collectible && x.type === "SPELL";
   },
@@ -29,4 +29,11 @@ export default {
   'LOE_115b': function ravenIdolSpells(x) {
     return x.collectible && x.type === "SPELL";
   }
+};
+
+export function getDiscoverCardFilter(cardId, heroClass) {
+  return function(card) {
+    return discoverCardFilters[cardId](card) &&
+           ( _.isEmpty(heroClass) ? true : ((card.playerClass === heroClass) || (card.playerClass === undefined)) );
+  };
 };

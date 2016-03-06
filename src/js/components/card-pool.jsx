@@ -21,8 +21,8 @@ class CardPool extends React.Component {
     });
   }
 
-  handleCardSelection(id) {
-    this.state.handleSelection(id);
+  handleCardSelection(card) {
+    this.state.handleSelection(card);
   }
 
   render() {
@@ -40,7 +40,7 @@ class CardPool extends React.Component {
                       return (
                           <li key={card.id}
                               className="card-item"
-                              onClick={ self.handleCardSelection.bind(self, card.id) }>
+                              onClick={ self.handleCardSelection.bind(self, card) }>
                               <Card info={card} />
                           </li>
                       );

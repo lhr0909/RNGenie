@@ -1,17 +1,20 @@
 import React from 'react';
 import _ from 'lodash';
-import { Grid, Row, Col, Well } from 'react-bootstrap';
+import { Grid, Row, Col, Well, Input } from 'react-bootstrap';
 
-import discoverCardFilters from '../modules/discover-card-filters.js';
+import { discoverCardFilters, getDiscoverCardFilter } from '../modules/discover-card-filters.js';
+import initCardData from '../modules/card-data.js';
+
 import CardPool from '../components/card-pool.jsx';
 
-import initCardData from '../modules/card-data.js';
 
 class DiscoverExplorer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
+      discoverCard: {},
+      heroClass: "",
       discoverCardList: [],
       explorerCardList: []
     };
@@ -22,17 +25,31 @@ class DiscoverExplorer extends React.Component {
     initCardData(function(data) {
       self.setState({
         data: data,
-        discoverCardList: _.filter(data, function(card) {
+        discoverCardList: _.cloneDeep(_.filter(data, function(card) {
           return !!discoverCardFilters[card.id];
-        }),
+        })),
         explorerCardList: []
       });
     });
   }
 
-  handleDiscoverSelection(cardId) {
+  handleDiscoverSelection(discoverCard) {
     this.setState({
-      explorerCardList: _.filter(this.state.data, discoverCardFilters[cardId])
+      discoverCard: discoverCard,
+      heroClass: discoverCard.playerClass || "",
+      discoverCardList: _.cloneDeep(_.map(this.state.discoverCardList, function(card) {
+        return _.assign({}, card, {
+          selected: card.id === discoverCard.id
+        });
+      })),
+      explorerCardList: _.cloneDeep(_.filter(this.state.data, getDiscoverCardFilter(discoverCard.id, discoverCard.playerClass)))
+    });
+  }
+
+  handleHeroChange(e) {
+    this.setState({
+      heroClass: e.target.value,
+      explorerCardList: _.cloneDeep(_.filter(this.state.data, getDiscoverCardFilter(this.state.discoverCard.id, e.target.value)))
     });
   }
 
@@ -40,7 +57,25 @@ class DiscoverExplorer extends React.Component {
     return (
       <Grid fluid={true}>
         <Row>
-          <Col xs={12}>Discover Cards Here</Col>
+          <Col xs={12}>
+            <Input type="select"
+                   label="Select Hero Class"
+                   value={this.state.heroClass}
+                   placeholder=""
+                   onChange={ this.handleHeroChange.bind(this) }
+            >
+              <option value="">(Choose a class)</option>
+              <option value="DRUID">Druid</option>
+              <option value="HUNTER">Hunter</option>
+              <option value="MAGE">Mage</option>
+              <option value="PALADIN">Paladin</option>
+              <option value="PRIEST">Priest</option>
+              <option value="ROGUE">Rogue</option>
+              <option value="SHAMAN">Shaman</option>
+              <option value="WARLOCK">Warlock</option>
+              <option value="WARRIOR">Warrior</option>
+            </Input>
+          </Col>
         </Row>
         <Row>
           <Col md={4} className="card-tray">

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { getDiscoverSummary } from '../modules/discover-calc.js';
+import DiscoverSimulator from './discover-sim.jsx';
 
 class DiscoverSummary extends React.Component {
   constructor(props) {
@@ -23,11 +24,12 @@ class DiscoverSummary extends React.Component {
   }
 
   render() {
-    let detailedSummary = (!!this.state.summary.classCardCount) ? (
+    let isDetailedSummary = !!this.state.summary.classCardCount;
+
+    let detailedSummary = (isDetailedSummary) ? (
       <div>
         <p className="">There are {this.state.summary.classCardCount || 0} class cards. </p>
         <p className="">There are {this.state.summary.neutralCardCount || 0} neutral cards. </p>
-        <p className="">Odds of getting a specific neutral card is {(this.state.summary.oddsAtLeastOneNeutralCard || 0) * 100}%. </p>
       </div>
     ) : (<div></div>);
 
@@ -35,6 +37,13 @@ class DiscoverSummary extends React.Component {
         <div className="discover-summary">
           <p className="">{ this.state.summary.message || "" }</p>
           { detailedSummary }
+          <DiscoverSimulator cardList={ (isDetailedSummary) ?
+            _.orderBy(
+              this.state.explorerCardList,
+              ['playerClass', 'cost', 'name'],
+              ['asc', 'asc', 'asc']
+            ) : []
+          } />
         </div>
     );
   }

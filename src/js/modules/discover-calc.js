@@ -23,12 +23,8 @@ export function getDiscoverSummary(cardList, heroClass) {
     }
   });
 
-  let totalCardCount = classCardCount + neutralCardCount;
-  let oddsAtLeastOneNeutralCard = 1 - (((totalCardCount-1) / totalCardCount) * ((totalCardCount-2) / (totalCardCount-1)) * ((totalCardCount-3) / (totalCardCount-2)));
-
   return {
     classCardCount,
-    neutralCardCount,
-    oddsAtLeastOneNeutralCard
+    neutralCardCount
   };
 };

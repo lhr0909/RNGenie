@@ -1,4 +1,4 @@
-export default {
+export const discoverCardFilters = {
   'LOE_003': function etheralConjurer(x) {
     return x.collectible && x.type === "SPELL";
   },
@@ -29,4 +29,18 @@ export default {
   'LOE_115b': function ravenIdolSpells(x) {
     return x.collectible && x.type === "SPELL";
   }
+};
+
+export function getDiscoverCardFilter(discoverCard, heroClass) {
+  if (discoverCard.id === 'LOE_076') {
+    // sir finley special case - take out the hero class for removing current hero power from list
+    return function(card) {
+      return discoverCardFilters[discoverCard.id](card) &&
+             ( _.isEmpty(heroClass) ? true : (card.playerClass !== heroClass) );
+    }
+  }
+  return function(card) {
+    return discoverCardFilters[discoverCard.id](card) &&
+           ( _.isEmpty(heroClass) ? true : ((card.playerClass === heroClass) || (card.playerClass === undefined)) );
+  };
 };

@@ -5,14 +5,16 @@
  */
 
 import React from 'react';
-import { Navbar, Nav, NavDropdown, NavItem, MenuItem } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, NavItem, MenuItem, Glyphicon } from 'react-bootstrap';
+
+import css from '../../css/rng-nav.css';
 
 'use strict';
 
 class RNGNav extends React.Component {
   render() {
     return (
-      <Navbar inverse>
+      <Navbar inverse staticTop>
         <Navbar.Header>
           <Navbar.Brand>
             <a href="#">RNGenie</a>
@@ -21,19 +23,17 @@ class RNGNav extends React.Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <NavItem eventKey={1} href="#">Link</NavItem>
-            <NavItem eventKey={2} href="#">Link</NavItem>
-            <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-              <MenuItem eventKey={3.1}>Action</MenuItem>
-              <MenuItem eventKey={3.2}>Another action</MenuItem>
-              <MenuItem eventKey={3.3}>Something else here</MenuItem>
-              <MenuItem divider />
-              <MenuItem eventKey={3.3}>Separated link</MenuItem>
-            </NavDropdown>
+            <NavItem eventKey={1} href="#">Discover</NavItem>
+            <NavItem eventKey={1} href="#">More Features Coming Soon™</NavItem>
           </Nav>
           <Nav pullRight>
-            <NavItem eventKey={1} href="#">Link Right</NavItem>
-            <NavItem eventKey={2} href="#">Link Right</NavItem>
+            <NavItem eventKey={1} href="https://www.paypal.me/lhr0909">Buy me a Beer</NavItem>
+            <NavDropdown eventKey={2} title="About" id="acknowledgements-dropdown">
+              <MenuItem eventKey={2.1} href="http://www.divby0.io">Made with <Glyphicon className="with-love" glyph="heart" /> by Simon</MenuItem>
+              <MenuItem divider />
+              <MenuItem eventKey={2.2} href="https://hearthstonejson.com/">Data from HearthstoneJSON</MenuItem>
+              <MenuItem eventKey={2.3} href="http://www.hearthhead.com/">Card Images from Hearthhead</MenuItem>
+            </NavDropdown>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

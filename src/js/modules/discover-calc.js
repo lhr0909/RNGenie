@@ -1,12 +1,7 @@
 import _ from 'lodash';
 
 function getProbability(classCardCount, neutralCardCount) {
-  let totalClassCardInstance = classCardCount * 4;
-  let totalCardInstance = totalClassCardInstance + neutralCardCount;
-  let oddsOfDrawingOneClassCard = 4 / totalCardInstance;
-  let oddsOfDrawingOneNeutralCard = 1 / totalCardInstance;
-
-  var recurseParamsClassCard = {
+  let recurseParamsClassCard = {
     probability : 1.00,
     numDesiredClassCards : 1,
     numDesiredNeutralCards : 0,
@@ -15,7 +10,7 @@ function getProbability(classCardCount, neutralCardCount) {
     level: 0
   };
 
-  var recurseParamsNeutralCard = {
+  let recurseParamsNeutralCard = {
     probability : 1.00,
     numDesiredClassCards : 0,
     numDesiredNeutralCards : 1,
@@ -32,7 +27,6 @@ function getProbability(classCardCount, neutralCardCount) {
 
 function getTotalCardInstanceCount(recurseParams) {
   let {
-    probability,
     numDesiredClassCards,
     numDesiredNeutralCards,
     numUndesiredClassCards,

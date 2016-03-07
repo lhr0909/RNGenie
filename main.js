@@ -64854,6 +64854,20 @@
 	          'There are ',
 	          this.state.summary.neutralCardCount || 0,
 	          ' neutral cards. '
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          { className: '' },
+	          'There is a ',
+	          this.state.summary.probability.classCardProbability * 100 || 0,
+	          '% to get a specific class card. '
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          { className: '' },
+	          'There is a ',
+	          this.state.summary.probability.neutralCardProbability * 100 || 0,
+	          '% to get a specific neutral card. '
 	        )
 	      ) : _react2.default.createElement('div', null);
 
@@ -64865,8 +64879,7 @@
 	          { className: '' },
 	          this.state.summary.message || ""
 	        ),
-	        detailedSummary,
-	        _react2.default.createElement(_discoverSim2.default, { cardList: isDetailedSummary ? _.orderBy(this.state.explorerCardList, ['playerClass', 'cost', 'name'], ['asc', 'asc', 'asc']) : [] })
+	        detailedSummary
 	      );
 	    }
 	  }]);
@@ -64895,6 +64908,103 @@
 	  return obj && obj.__esModule ? obj : { default: obj };
 	}
 
+	function getProbability(classCardCount, neutralCardCount) {
+	  var totalClassCardInstance = classCardCount * 4;
+	  var totalCardInstance = totalClassCardInstance + neutralCardCount;
+	  var oddsOfDrawingOneClassCard = 4 / totalCardInstance;
+	  var oddsOfDrawingOneNeutralCard = 1 / totalCardInstance;
+
+	  var recurseParamsClassCard = {
+	    probability: 1.00,
+	    numDesiredClassCards: 1,
+	    numDesiredNeutralCards: 0,
+	    numUndesiredClassCards: classCardCount - 1,
+	    numUndesiredNeutralCards: neutralCardCount,
+	    level: 0
+	  };
+
+	  var recurseParamsNeutralCard = {
+	    probability: 1.00,
+	    numDesiredClassCards: 0,
+	    numDesiredNeutralCards: 1,
+	    numUndesiredClassCards: classCardCount,
+	    numUndesiredNeutralCards: neutralCardCount - 1,
+	    level: 0
+	  };
+
+	  return {
+	    classCardProbability: recurse(recurseParamsClassCard),
+	    neutralCardProbability: recurse(recurseParamsNeutralCard)
+	  };
+	}
+
+	function getTotalCardInstanceCount(recurseParams) {
+	  var probability = recurseParams.probability;
+	  var numDesiredClassCards = recurseParams.numDesiredClassCards;
+	  var numDesiredNeutralCards = recurseParams.numDesiredNeutralCards;
+	  var numUndesiredClassCards = recurseParams.numUndesiredClassCards;
+	  var numUndesiredNeutralCards = recurseParams.numUndesiredNeutralCards;
+
+	  return 4 * numDesiredClassCards + 4 * numUndesiredClassCards + numDesiredNeutralCards + numUndesiredNeutralCards;
+	}
+
+	function recurse(recurseParams) {
+	  var probability = recurseParams.probability;
+	  var numDesiredClassCards = recurseParams.numDesiredClassCards;
+	  var numDesiredNeutralCards = recurseParams.numDesiredNeutralCards;
+	  var numUndesiredClassCards = recurseParams.numUndesiredClassCards;
+	  var numUndesiredNeutralCards = recurseParams.numUndesiredNeutralCards;
+	  var level = recurseParams.level;
+
+	  if (numDesiredClassCards === 0 && numDesiredNeutralCards === 0) {
+	    return probability;
+	  }
+
+	  if (level >= 3 || numDesiredClassCards < 0 || numUndesiredClassCards < 0 || numDesiredNeutralCards < 0 || numUndesiredNeutralCards < 0 || probability === 0) {
+	    return 0;
+	  }
+
+	  var totalCardInstance = getTotalCardInstanceCount(recurseParams);
+
+	  var probabilityDesiredClassCard = probability * 4 * numDesiredClassCards / totalCardInstance;
+
+	  var probabilityUndesiredClassCard = probability * 4 * numUndesiredClassCards / totalCardInstance;
+
+	  var probabilityDesiredNeutralCard = probability * numDesiredNeutralCards / totalCardInstance;
+
+	  var probabilityUndesiredNeutralCard = probability * numUndesiredNeutralCards / totalCardInstance;
+
+	  return recurse({
+	    probability: probabilityDesiredClassCard,
+	    numDesiredClassCards: numDesiredClassCards - 1,
+	    numDesiredNeutralCards: numDesiredNeutralCards,
+	    numUndesiredClassCards: numUndesiredClassCards,
+	    numUndesiredNeutralCards: numUndesiredNeutralCards,
+	    level: level + 1
+	  }) + recurse({
+	    probability: probabilityUndesiredClassCard,
+	    numDesiredClassCards: numDesiredClassCards,
+	    numDesiredNeutralCards: numDesiredNeutralCards,
+	    numUndesiredClassCards: numUndesiredClassCards - 1,
+	    numUndesiredNeutralCards: numUndesiredNeutralCards,
+	    level: level + 1
+	  }) + recurse({
+	    probability: probabilityDesiredNeutralCard,
+	    numDesiredClassCards: numDesiredClassCards,
+	    numDesiredNeutralCards: numDesiredNeutralCards - 1,
+	    numUndesiredClassCards: numUndesiredClassCards,
+	    numUndesiredNeutralCards: numUndesiredNeutralCards,
+	    level: level + 1
+	  }) + recurse({
+	    probability: probabilityUndesiredNeutralCard,
+	    numDesiredClassCards: numDesiredClassCards,
+	    numDesiredNeutralCards: numDesiredNeutralCards,
+	    numUndesiredClassCards: numUndesiredClassCards,
+	    numUndesiredNeutralCards: numUndesiredNeutralCards - 1,
+	    level: level + 1
+	  });
+	}
+
 	function getDiscoverSummary(cardList, heroClass) {
 	  if (_lodash2.default.isEmpty(cardList)) {
 	    return {
@@ -64918,9 +65028,12 @@
 	    }
 	  });
 
+	  var probability = getProbability(classCardCount, neutralCardCount);
+
 	  return {
 	    classCardCount: classCardCount,
-	    neutralCardCount: neutralCardCount
+	    neutralCardCount: neutralCardCount,
+	    probability: probability
 	  };
 	};
 

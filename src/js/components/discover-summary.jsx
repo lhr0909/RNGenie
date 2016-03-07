@@ -30,6 +30,8 @@ class DiscoverSummary extends React.Component {
       <div>
         <p className="">There are {this.state.summary.classCardCount || 0} class cards. </p>
         <p className="">There are {this.state.summary.neutralCardCount || 0} neutral cards. </p>
+        <p className="">There is a {this.state.summary.probability.classCardProbability * 100 || 0}% to get a specific class card. </p>
+        <p className="">There is a {this.state.summary.probability.neutralCardProbability * 100 || 0}% to get a specific neutral card. </p>
       </div>
     ) : (<div></div>);
 
@@ -37,13 +39,6 @@ class DiscoverSummary extends React.Component {
         <div className="discover-summary">
           <p className="">{ this.state.summary.message || "" }</p>
           { detailedSummary }
-          <DiscoverSimulator cardList={ (isDetailedSummary) ?
-            _.orderBy(
-              this.state.explorerCardList,
-              ['playerClass', 'cost', 'name'],
-              ['asc', 'asc', 'asc']
-            ) : []
-          } />
         </div>
     );
   }

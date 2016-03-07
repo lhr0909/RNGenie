@@ -24,7 +24,7 @@ class DiscoverSummary extends React.Component {
   }
 
   render() {
-    let isDetailedSummary = !!this.state.summary.classCardCount;
+    let isDetailedSummary = !!this.state.summary.classCardCount || !!this.state.summary.neutralCardCount;
 
     let detailedSummary = (isDetailedSummary) ? (
       <div>

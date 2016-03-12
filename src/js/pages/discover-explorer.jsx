@@ -1,6 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
-import { Grid, Row, Col, Well, Input } from 'react-bootstrap';
+import { Grid, Row, Col, Well, Input, Panel } from 'react-bootstrap';
+
+import css from '../../css/discover-explorer.css';
 
 import { discoverCardFilters, getDiscoverCardFilter } from '../modules/discover-card-filters.js';
 import initCardData from '../modules/card-data.js';
@@ -17,7 +19,8 @@ class DiscoverExplorer extends React.Component {
       discoverCard: {},
       heroClass: "",
       discoverCardList: [],
-      explorerCardList: []
+      explorerCardList: [],
+      showExplorer: false
     };
   }
 
@@ -58,40 +61,54 @@ class DiscoverExplorer extends React.Component {
     return (
       <Grid fluid={true}>
         <Row>
-          <Col xs={12}>
-            <Input type="select"
-                   label="Select Hero Class"
-                   value={this.state.heroClass}
-                   placeholder=""
-                   onChange={ this.handleHeroChange.bind(this) }
+          <Col xs={12} md={4}>
+            <Panel header="Discover Filter" bsStyle="primary">
+              <div className="hero-select">
+                <Input type="select"
+                       label="Select Hero Class"
+                       value={this.state.heroClass}
+                       placeholder=""
+                       onChange={ this.handleHeroChange.bind(this) }
+                >
+                  <option value="">(Choose a class)</option>
+                  <option value="DRUID">Druid</option>
+                  <option value="HUNTER">Hunter</option>
+                  <option value="MAGE">Mage</option>
+                  <option value="PALADIN">Paladin</option>
+                  <option value="PRIEST">Priest</option>
+                  <option value="ROGUE">Rogue</option>
+                  <option value="SHAMAN">Shaman</option>
+                  <option value="WARLOCK">Warlock</option>
+                  <option value="WARRIOR">Warrior</option>
+                </Input>
+              </div>
+              <CardPool list={ this.state.discoverCardList }
+                        handleSelection={ this.handleDiscoverSelection.bind(this) } />
+            </Panel>
+          </Col>
+          <Col xs={12} md={8}>
+            <Panel header="Discover Summary" bsStyle="success">
+              <DiscoverSummary explorerCardList={ this.state.explorerCardList }
+                               heroClass={ this.state.heroClass }
+                               discoverCard={ this.state.discoverCard } />
+            </Panel>
+            <Panel collapsible expanded={ this.state.showExplorer }
+                   onSelect={ (function(){ this.setState({showExplorer: !this.state.showExplorer}); }).bind(this) }
+                   header="Card Explorer (Bandwidth warning: it loads a lot of card images, open with caution on mobile network)"
+                   bsStyle="warning"
             >
-              <option value="">(Choose a class)</option>
-              <option value="DRUID">Druid</option>
-              <option value="HUNTER">Hunter</option>
-              <option value="MAGE">Mage</option>
-              <option value="PALADIN">Paladin</option>
-              <option value="PRIEST">Priest</option>
-              <option value="ROGUE">Rogue</option>
-              <option value="SHAMAN">Shaman</option>
-              <option value="WARLOCK">Warlock</option>
-              <option value="WARRIOR">Warrior</option>
-            </Input>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <DiscoverSummary explorerCardList={ this.state.explorerCardList }
-                             heroClass={ this.state.heroClass }
-                             discoverCard={ this.state.discoverCard } />
-          </Col>
-        </Row>
-        <Row>
-          <Col md={4} className="card-tray">
-            <CardPool list={ this.state.discoverCardList }
-                      handleSelection={ this.handleDiscoverSelection.bind(this) } />
-          </Col>
-          <Col md={8}>
-            <CardPool list={ this.state.explorerCardList } />
+              {
+                (function() {
+                  if (this.state.showExplorer) {
+                    return (<CardPool list={ this.state.explorerCardList }
+                                      handleSelection={ function() { return; } } />);
+                  } else {
+                    return (<div></div>);
+                  }
+                }).apply(this)
+              }
+
+            </Panel>
           </Col>
         </Row>
       </Grid>

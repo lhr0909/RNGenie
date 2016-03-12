@@ -10,7 +10,7 @@ class DiscoverSummary extends React.Component {
       explorerCardList: this.props.explorerCardList,
       heroClass: this.props.heroClass,
       discoverCard: this.props.discoverCard,
-      summary: getDiscoverSummary(this.props.explorerCardList, this.props.heroClass)
+      summary: getDiscoverSummary(this.props.explorerCardList, this.props.heroClass, this.props.onError)
     };
   }
 
@@ -19,7 +19,7 @@ class DiscoverSummary extends React.Component {
       explorerCardList: nextProps.explorerCardList,
       heroClass: nextProps.heroClass,
       discoverCard: nextProps.discoverCard,
-      summary: getDiscoverSummary(nextProps.explorerCardList, nextProps.heroClass)
+      summary: getDiscoverSummary(nextProps.explorerCardList, nextProps.heroClass, this.props.onError)
     });
   }
 
@@ -27,20 +27,26 @@ class DiscoverSummary extends React.Component {
     let isDetailedSummary = !!this.state.summary.classCardCount || !!this.state.summary.neutralCardCount;
 
     let detailedSummary = (isDetailedSummary) ? (
-      <div>
-        <p className="">There are {this.state.summary.classCardCount || 0} class cards. </p>
-        <p className="">There are {this.state.summary.neutralCardCount || 0} neutral cards. </p>
-        <p className="">There is a {this.state.summary.probability.classCardProbability * 100 || 0}% to get a specific class card. </p>
-        <p className="">There is a {this.state.summary.probability.neutralCardProbability * 100 || 0}% to get a specific neutral card. </p>
+      <div className="discover-summary">
+        <h4 className="discover-summary-subtitle">When you play { this.state.discoverCard.name }:</h4>
+        <p className="discover-summary-message">
+          There are {this.state.summary.classCardCount || 0} class cards and&nbsp;
+          {this.state.summary.neutralCardCount || 0} neutral cards to discover from.
+        </p>
+        <p className="discover-summary-message">
+          There is a&nbsp;
+          { Math.round(this.state.summary.probability.classCardProbability * 10000) / 100 || 0 }%
+          chance to get a specific class card.
+        </p>
+        <p className="discover-summary-message">
+          There is a&nbsp;
+          { Math.round(this.state.summary.probability.neutralCardProbability * 10000) / 100 || 0 }%
+          chance to get a specific neutral card.
+        </p>
       </div>
-    ) : (<div></div>);
+    ) : (<div className="hidden"></div>);
 
-    return (
-        <div className="discover-summary">
-          <p className="">{ this.state.summary.message || "" }</p>
-          { detailedSummary }
-        </div>
-    );
+    return detailedSummary;
   }
 }
 

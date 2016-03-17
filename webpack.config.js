@@ -6,16 +6,22 @@ var autoprefixer = require('autoprefixer');
 var precss = require('precss');
 var cssnext = require('postcss-cssnext');
 
+var PROD = JSON.parse(process.env.PROD_ENV || '0');
+
 module.exports = {
   entry: path.join(__dirname, 'src', 'js', 'app.jsx'),
+  devtool: 'source-map',
   output: {
     path: path.join(__dirname, 'build'),
-    filename: 'main.js'
+    filename: PROD ? 'main.min.js' : 'main.js'
   },
-  plugins: [new HtmlWebpackPlugin({
-    filename: 'index.html',
-    template: path.join(__dirname, 'src', 'index.html')
-  })],
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: path.join(__dirname, 'src', 'index.html')
+    }),
+    PROD ? new webpack.optimize.UglifyJsPlugin({minimize: true}) : undefined
+  ],
   module: {
     loaders: [
       {

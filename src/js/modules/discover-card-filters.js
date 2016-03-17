@@ -31,7 +31,7 @@ export const discoverCardFilters = {
   }
 };
 
-export function getDiscoverCardFilter(discoverCard, heroClass) {
+export function getDiscoverCardFilter(discoverCard, heroClass, isStandardOnly) {
   if (discoverCard.id === 'LOE_076') {
     // sir finley special case - take out the hero class for removing current hero power from list
     return function(card) {
@@ -41,6 +41,7 @@ export function getDiscoverCardFilter(discoverCard, heroClass) {
   }
   return function(card) {
     return discoverCardFilters[discoverCard.id](card) &&
-           ( _.isEmpty(heroClass) ? true : ((card.playerClass === heroClass) || (card.playerClass === undefined)) );
+           ( _.isEmpty(heroClass) ? true : ((card.playerClass === heroClass) || (card.playerClass === undefined)) ) &&
+           ( (!isStandardOnly) ? true : ((card.set !== "GVG") && (card.set !== "NAXX")) );
   };
 };

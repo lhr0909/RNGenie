@@ -10,7 +10,7 @@ class DiscoverSummary extends React.Component {
       explorerCardList: this.props.explorerCardList,
       heroClass: this.props.heroClass,
       discoverCard: this.props.discoverCard,
-      summary: getDiscoverSummary(this.props.explorerCardList, this.props.heroClass, this.props.onError)
+      summary: getDiscoverSummary(this.props.explorerCardList, this.props.heroClass, this.props.onComplete)
     };
   }
 
@@ -19,7 +19,7 @@ class DiscoverSummary extends React.Component {
       explorerCardList: nextProps.explorerCardList,
       heroClass: nextProps.heroClass,
       discoverCard: nextProps.discoverCard,
-      summary: getDiscoverSummary(nextProps.explorerCardList, nextProps.heroClass, this.props.onError)
+      summary: getDiscoverSummary(nextProps.explorerCardList, nextProps.heroClass, nextProps.onComplete)
     });
   }
 

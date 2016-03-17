@@ -20,7 +20,11 @@ class DiscoverExplorer extends React.Component {
       heroClass: "",
       discoverCardList: [],
       explorerCardList: [],
-      showExplorer: false
+      showExplorer: false,
+      isStandardOnly: false,
+      inputPanelStyle: "success",
+      dropDownStyle: "success",
+      heroDropdownHelpMessage: ""
     };
   }
 
@@ -46,15 +50,67 @@ class DiscoverExplorer extends React.Component {
           selected: card.id === discoverCard.id
         });
       })),
-      explorerCardList: _.cloneDeep(_.filter(this.state.data, getDiscoverCardFilter(discoverCard, discoverCard.playerClass)))
+      explorerCardList: _.cloneDeep(_.filter(
+        this.state.data,
+        getDiscoverCardFilter(
+          discoverCard,
+          discoverCard.playerClass,
+          this.state.isStandardOnly)
+      ))
     });
   }
 
   handleHeroChange(e) {
+    let heroClass = e.target.value;
+    let explorerCardList = _.cloneDeep(_.filter(
+      this.state.data,
+      getDiscoverCardFilter(
+        this.state.discoverCard,
+        heroClass,
+        this.state.isStandardOnly)
+    ));
     this.setState({
-      heroClass: e.target.value,
-      explorerCardList: _.cloneDeep(_.filter(this.state.data, getDiscoverCardFilter(this.state.discoverCard, e.target.value)))
+      heroClass,
+      explorerCardList
     });
+  }
+
+  handleStandardSelection(e) {
+    let isStandardOnly = e.target.checked;
+    let explorerCardList = _.cloneDeep(_.filter(
+      this.state.data,
+      getDiscoverCardFilter(
+        this.state.discoverCard,
+        this.state.heroClass,
+        isStandardOnly)
+    ));
+    this.setState({
+      isStandardOnly,
+      explorerCardList
+    });
+  }
+
+  handleDiscoverSummaryCompletion(args) {
+    //TODO: really terrible hack, should clean up the states a bit more
+    // http://stackoverflow.com/questions/31420402
+    let self = this;
+    let newState = {};
+    if (args.error) {
+      newState = {
+        inputPanelStyle: "danger",
+        dropDownStyle: "error",
+        heroDropdownHelpMessage: args.message
+      };
+    } else {
+      newState = {
+        inputPanelStyle: "success",
+        dropDownStyle: "success",
+        heroDropdownHelpMessage: ""
+      };
+    }
+    setTimeout(function() {
+      self.setState(newState);
+    }, 0);
   }
 
   render() {
@@ -62,12 +118,14 @@ class DiscoverExplorer extends React.Component {
       <Grid fluid={true}>
         <Row>
           <Col xs={12} md={4}>
-            <Panel header="Discover Filter" bsStyle="primary">
+            <Panel header="Discover Filter" bsStyle={ this.state.inputPanelStyle }>
               <div className="hero-select">
                 <Input type="select"
                        label="Select Hero Class"
                        value={this.state.heroClass}
                        placeholder=""
+                       help={ this.state.heroDropdownHelpMessage }
+                       bsStyle={ this.state.dropDownStyle }
                        onChange={ this.handleHeroChange.bind(this) }
                 >
                   <option value="">(Choose a class)</option>
@@ -82,15 +140,22 @@ class DiscoverExplorer extends React.Component {
                   <option value="WARRIOR">Warrior</option>
                 </Input>
               </div>
+              <div className="standard-filter">
+                <Input type="checkbox"
+                       label="Show Standard Only"
+                       checked={ this.state.isStandardOnly }
+                       onChange={ this.handleStandardSelection.bind(this) } />
+              </div>
               <CardPool list={ this.state.discoverCardList }
                         handleSelection={ this.handleDiscoverSelection.bind(this) } />
             </Panel>
           </Col>
           <Col xs={12} md={8}>
-            <Panel header="Discover Summary" bsStyle="success">
+            <Panel header="Discover Summary" bsStyle="primary">
               <DiscoverSummary explorerCardList={ this.state.explorerCardList }
                                heroClass={ this.state.heroClass }
-                               discoverCard={ this.state.discoverCard } />
+                               discoverCard={ this.state.discoverCard }
+                               onComplete={ this.handleDiscoverSummaryCompletion.bind(this) } />
             </Panel>
             <Panel collapsible expanded={ this.state.showExplorer }
                    onSelect={ (function(){ this.setState({showExplorer: !this.state.showExplorer}); }).bind(this) }

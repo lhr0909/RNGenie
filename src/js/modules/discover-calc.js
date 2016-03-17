@@ -102,17 +102,21 @@ function recurse(recurseParams) {
 
 }
 
-export function getDiscoverSummary(cardList, heroClass) {
+export function getDiscoverSummary(cardList, heroClass, completeCallback) {
   if (_.isEmpty(cardList)) {
-    return {
+    completeCallback({
+      error: true,
       message: "Please select a discover card from below."
-    };
+    });
+    return {};
   }
 
   if (_.isEmpty(heroClass)) {
-    return {
+    completeCallback({
+      error: true,
       message: "Please select a hero class from above."
-    };
+    });
+    return {};
   }
 
   let classCardCount = 0;
@@ -127,6 +131,7 @@ export function getDiscoverSummary(cardList, heroClass) {
 
   let probability = getProbability(classCardCount, neutralCardCount);
 
+  completeCallback({});
   return {
     classCardCount,
     neutralCardCount,
